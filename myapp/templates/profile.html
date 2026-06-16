@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="profile-container">
+
+    <div class="profile-card">
+
+        <!-- Profile Image -->
+        <div class="profile-image">
+            {% if request.user.profile.picture %}
+                <img src="{{ request.user.profile.picture.url }}" alt="Profile Photo">
+            {% else %}
+                <img src="/media/profile_pics/default.jpg" alt="Default Photo">
+            {% endif %}
+        </div>
+
+        <!-- User Info -->
+        <h2 class="username">
+            {{ request.user.username }}
+        </h2>
+
+        <p class="email">
+            {{ request.user.email }}
+        </p>
+
+        <!-- Display Info -->
+        <div class="info-box">
+
+            <p>
+                <strong>Gender:</strong>
+                {{ request.user.profile.get_gender_display }}
+            </p>
+
+            <p>
+                <strong>Phone:</strong>
+                {{ request.user.profile.ph_no }}
+            </p>
+
+        </div>
+
+        <!-- Update Form -->
+        <form method="post" enctype="multipart/form-data" class="profile-form">
+
+            {% csrf_token %}
+
+            <label>Gender</label>
+            {{ form.gender }}
+
+            <label>Phone Number</label>
+            {{ form.ph_no }}
+
+            <label>Profile Picture</label>
+            {{ form.picture }}
+
+            <button type="submit" class="save-btn">
+                Save Profile
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

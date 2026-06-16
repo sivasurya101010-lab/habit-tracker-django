@@ -1,0 +1,303 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Sidebar Toggle -->
+
+<input type="checkbox" id="menu-toggle">
+
+<label for="menu-toggle" class="menu-btn">
+    ☰
+</label>
+
+<!-- Sidebar -->
+
+<div class="sidebar">
+
+    <h2 class="menu-title">
+        Menu
+    </h2>
+
+    <a href="{% url 'add' %}">
+        + Add Habit
+    </a>
+
+    <a href="{% url 'category' %}">
+        + Category
+    </a>
+
+    <a href="{% url 'category_list' %}">
+        Categories
+    </a>
+
+    <a href="{% url 'report' %}">
+        Reports
+    </a>
+
+    <a href="{% url 'profile'%}">
+        Profile
+    </a>
+
+    <form action="{% url 'logout' %}" method="post">
+
+        {% csrf_token %}
+
+        <button type="submit" class="logout-btn">
+            Logout
+        </button>
+
+    </form>
+
+</div>
+
+<!-- Main Content -->
+
+<div class="main-content">
+
+    <h1 class="welcome">
+        Welcome {{ username }}
+    </h1>
+
+    <div class="dashboard">
+
+        <div class="card">
+            <h3>Total Habits</h3>
+            <p>{{ total_habits }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Completed Today</h3>
+            <p>{{ completed_today }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Pending Today</h3>
+            <p>{{ pending }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Progress</h3>
+            <p>{{ progress }}%</p>
+        </div>
+
+        <div class="card">
+            <h3>✅ Total Completions</h3>
+            <p>{{ total_completion }}</p>
+        </div>
+
+    </div>
+
+    <!-- Progress -->
+
+    <div class="progress-section">
+
+        <p class="progress-text">
+            {{ progress }}% Completed
+        </p>
+
+        <div class="progress-container">
+
+            <div class="progress-bar"
+                 style="width: {{ progress }}%;">
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Category Filter -->
+
+    <form method="get">
+
+        <select name="category">
+
+            <option value="">
+                All Categories
+            </option>
+
+            {% for category in categories %}
+
+                <option value="{{ category.id }}">
+                    {{ category.name }}
+                </option>
+
+            {% endfor %}
+
+        </select>
+
+        <button type="submit">
+            Filter
+        </button>
+
+    </form>
+
+    <!-- Search -->
+
+    <div class="filter-section">
+
+        <form method="get">
+
+            <input type="text"
+                   name="search"
+                   placeholder="Search Habit">
+
+            <button type="submit">
+                Search
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- Habit Table -->
+
+    <table class="habit-table">
+
+        <thead>
+
+            <tr>
+                <th>Habit</th>
+                <th>Category</th>
+                <th>Actions</th>
+                <th>Status</th>
+                <th>Complete</th>
+                <th>Streak</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for habit in habits %}
+
+            <tr>
+
+                <td class="habit-title">
+
+                    <a href="{% url 'history' habit.habit.id %}"
+                       class="habit-link">
+
+                        {{ habit.habit.title }}
+
+                    </a>
+
+                </td>
+
+                <td class="category-text">
+
+                    {% if habit.habit.category %}
+
+                        {{ habit.habit.category.name }}
+
+                    {% else %}
+
+                        No Category
+
+                    {% endif %}
+
+                </td>
+
+                <td>
+
+                    <a href="{% url 'update' habit.habit.id %}">
+
+                        <button type="button"
+                                class="update-btn">
+
+                            Update
+
+                        </button>
+
+                    </a>
+
+                    <form action="{% url 'delete' habit.habit.id %}"
+                          method="post"
+                          style="display:inline;">
+
+                        {% csrf_token %}
+
+                        <button type="submit"
+                                class="delete-btn">
+
+                            Delete
+
+                        </button>
+
+                    </form>
+
+                </td>
+
+                <td>
+
+                    {% if habit.completed %}
+
+                        <span class="completed-status">
+                            ✅ Completed
+                        </span>
+
+                    {% else %}
+
+                        <span class="not-completed-status">
+                            ❌ Not Completed
+                        </span>
+
+                    {% endif %}
+
+                </td>
+
+                <td>
+
+                    {% if not habit.completed %}
+
+                        <a href="{% url 'completed' habit.habit.id %}">
+
+                            <button type="button"
+                                    class="complete-btn">
+
+                                Complete
+
+                            </button>
+
+                        </a>
+
+                    {% else %}
+
+                        <span class="done-status">
+                            Done ✓
+                        </span>
+
+                    {% endif %}
+
+                </td>
+
+                <td class="streak-text">
+
+                    Current: {{ habit.streak }}
+                    <br>
+                    Best: {{ habit.max_streak }}
+
+                </td>
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+
+                <td colspan="6">
+
+                    No habits found.
+                    Add your first habit!
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

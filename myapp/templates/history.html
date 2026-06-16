@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="history-container">
+
+    <h1 class="history-title">
+        📅 Habit History
+    </h1>
+
+    <a href="{% url 'home' %}" class="back-btn">
+        ← Back to Dashboard
+    </a>
+
+    <table class="history-table">
+
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for log in habit_history %}
+
+            <tr>
+
+                <td>
+                    {{ log.logdate }}
+                </td>
+
+                <td>
+
+                    {% if log.completion %}
+
+                        <span class="completed-status">
+                            ✅ Completed
+                        </span>
+
+                    {% else %}
+
+                        <span class="missed-status">
+                            ❌ Missed
+                        </span>
+
+                    {% endif %}
+
+                </td>
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+                <td colspan="2">
+                    No history available
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

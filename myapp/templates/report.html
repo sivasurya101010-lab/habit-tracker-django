@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="report-container">
+
+    <h1 class="report-title">
+        📊 Habit Report
+    </h1>
+
+    <a href="{% url 'home' %}" class="back-btn">
+        ← Dashboard
+    </a>
+
+    <div class="report-cards">
+
+        <div class="report-card">
+            <h3>Monthly Completions: {{ montly_count }}📈</h3>
+    
+        </div>
+
+        <div class="report-card">
+            <h3>Total Habits: {{ total_habits }}🧗‍♂️</h3>
+        
+        </div>
+
+    </div>
+
+    <table class="report-table">
+
+        <thead>
+
+            <tr>
+                <th>Habit</th>
+                <th>Total Completions</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for item in habitCount %}
+
+            <tr>
+
+                <td>
+                    {{ item.habit.title }}
+                </td>
+
+                <td>
+                    {{ item.count }}
+                </td>
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+                <td colspan="2">
+                    No report data available
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}
