@@ -13,14 +13,14 @@
 
 <p>
     New user?
-    <a href="{% url 'singup' %}">LOGIN</a>
-
+    <a href="{% url 'signup' %}">SIGNUP</a>
 </p>
 
-{%for messages in messages%}
 
-    <p>{{message}}</p>
+{% for message in messages %}
+
+    <p>{{ message }}</p>
 
 {% endfor %}
 
-{% endblock%}
+{% endblock %}
