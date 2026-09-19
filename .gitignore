@@ -1,11 +1,30 @@
+# Byte-compiled / optimized / DLL files
 __pycache__/
-*.pyc
-db.sqlite3
+*.py[cod]
+*$py.class
 
-media/profile_pics/ETMA0508.JPEG
+# C extensions
+*.so
 
-.env
-venv/
+# Distribution / packaging
+.Python
 env/
+venv/
+ENV/
+env.bak/
+venv.bak/
 
-staticfiles/
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media/
+
+# Environment variables
+.env
+
+# IDE / Editor files
+.vscode/
+.idea/
+*.swp
